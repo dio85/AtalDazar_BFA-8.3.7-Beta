@@ -107,7 +107,8 @@ std::string DBUpdater<WorldDatabaseConnection>::GetTableName()
 template<>
 std::string DBUpdater<WorldDatabaseConnection>::GetBaseFile()
 {
-    return GitRevision::GetFullDatabase();
+    return BuiltInConfig::GetSourceDirectory() +
+        "/sql/base/world_database.sql";
 }
 
 template<>
@@ -166,7 +167,8 @@ std::string DBUpdater<HotfixDatabaseConnection>::GetTableName()
 template<>
 std::string DBUpdater<HotfixDatabaseConnection>::GetBaseFile()
 {
-    return GitRevision::GetHotfixesDatabase();
+    return BuiltInConfig::GetSourceDirectory() +
+        "/sql/base/hotfixes_database.sql";
 }
 
 template<>
@@ -252,7 +254,7 @@ bool DBUpdater<T>::Update(DatabaseWorkerPool<T>& pool)
 
     UpdateFetcher updateFetcher(sourceDirectory, [&](std::string const& query) { DBUpdater<T>::Apply(pool, query); },
         [&](Path const& file) { DBUpdater<T>::ApplyFile(pool, file); },
-            [&](std::string const& query) -> QueryResult { return DBUpdater<T>::Retrieve(pool, query); });
+        [&](std::string const& query) -> QueryResult { return DBUpdater<T>::Retrieve(pool, query); });
 
     UpdateResult result;
     try
@@ -305,21 +307,21 @@ bool DBUpdater<T>::Populate(DatabaseWorkerPool<T>& pool)
     {
         switch (DBUpdater<T>::GetBaseLocationType())
         {
-            case LOCATION_REPOSITORY:
-            {
-                TC_LOG_ERROR("sql.updates", ">> Base file \"%s\" is missing. Try fixing it by cloning the source again.",
-                    base.generic_string().c_str());
+        case LOCATION_REPOSITORY:
+        {
+            TC_LOG_ERROR("sql.updates", ">> Base file \"%s\" is missing. Try fixing it by cloning the source again.",
+                base.generic_string().c_str());
 
-                break;
-            }
-            case LOCATION_DOWNLOAD:
-            {
-                std::string const filename = base.filename().generic_string();
-                std::string const workdir = boost::filesystem::current_path().generic_string();
-                TC_LOG_ERROR("sql.updates", ">> File \"%s\" is missing, download it from \"https://github.com/AshamaneProject/AshamaneCore/releases\"" \
-                    " uncompress it and place the file \"%s\" in the directory \"%s\".", filename.c_str(), filename.c_str(), workdir.c_str());
-                break;
-            }
+            break;
+        }
+        case LOCATION_DOWNLOAD:
+        {
+            std::string const filename = base.filename().generic_string();
+            std::string const workdir = boost::filesystem::current_path().generic_string();
+            TC_LOG_ERROR("sql.updates", ">> File \"%s\" is missing, download it from \"https://github.com/TrinityCore/TrinityCore/releases\"" \
+                " uncompress it and place the file \"%s\" in the directory \"%s\".", filename.c_str(), filename.c_str(), workdir.c_str());
+            break;
+        }
         }
         return false;
     }
@@ -410,7 +412,7 @@ void DBUpdater<T>::ApplyFile(DatabaseWorkerPool<T>& pool, std::string const& hos
 
     // Invokes a mysql process which doesn't leak credentials to logs
     int const ret = Trinity::StartProcess(DBUpdaterUtil::GetCorrectedMySQLExecutable(), args,
-                                 "sql.updates", path.generic_string(), true);
+        "sql.updates", path.generic_string(), true);
 
     if (ret != EXIT_SUCCESS)
     {
@@ -425,6 +427,7 @@ void DBUpdater<T>::ApplyFile(DatabaseWorkerPool<T>& pool, std::string const& hos
     }
 }
 
+//template class TC_DATABASE_API DBUpdater<LegionLoginDatabaseConnection>;
 template class TC_DATABASE_API DBUpdater<LoginDatabaseConnection>;
 template class TC_DATABASE_API DBUpdater<WorldDatabaseConnection>;
 template class TC_DATABASE_API DBUpdater<CharacterDatabaseConnection>;

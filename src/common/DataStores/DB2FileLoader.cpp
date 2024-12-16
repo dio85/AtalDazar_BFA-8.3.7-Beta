@@ -164,7 +164,7 @@ DB2FileSource::~DB2FileSource()
 class DB2FileLoaderImpl
 {
 public:
-    virtual ~DB2FileLoaderImpl() { }
+    virtual ~DB2FileLoaderImpl() {}
     virtual void LoadColumnData(std::unique_ptr<DB2SectionHeader[]> sections, std::unique_ptr<DB2FieldEntry[]> fields, std::unique_ptr<DB2ColumnMeta[]> columnMeta,
         std::unique_ptr<std::unique_ptr<DB2PalletValue[]>[]> palletValues, std::unique_ptr<std::unique_ptr<DB2PalletValue[]>[]> palletArrayValues,
         std::unique_ptr<std::unordered_map<uint32, uint32>[]> commonValues) = 0;
@@ -208,7 +208,7 @@ public:
     void LoadColumnData(std::unique_ptr<DB2SectionHeader[]> sections, std::unique_ptr<DB2FieldEntry[]> fields, std::unique_ptr<DB2ColumnMeta[]> columnMeta,
         std::unique_ptr<std::unique_ptr<DB2PalletValue[]>[]> palletValues, std::unique_ptr<std::unique_ptr<DB2PalletValue[]>[]> palletArrayValues,
         std::unique_ptr<std::unordered_map<uint32, uint32>[]> commonValues) override;
-    void SkipEncryptedSection(uint32 /*section*/) override { }
+    void SkipEncryptedSection(uint32 /*section*/) override {}
     bool LoadTableData(DB2FileSource* source, uint32 section) override;
     bool LoadCatalogData(DB2FileSource* /*source*/, uint32 /*section*/) override { return true; }
     void SetAdditionalData(std::vector<uint32> idTable, std::vector<DB2RecordCopy> copyTable, std::vector<std::vector<DB2IndexData>> parentIndexes) override;
@@ -430,40 +430,40 @@ char* DB2FileLoaderRegularImpl::AutoProduceData(uint32& indexTableSize, char**& 
                 {
                     switch (_loadInfo->TypesString[fieldIndex])
                     {
-                        case FT_FLOAT:
-                            *((float*)(&dataTable[offset])) = RecordGetFloat(rawRecord, x, z);
-                            offset += 4;
-                            break;
-                        case FT_INT:
-                            *((uint32*)(&dataTable[offset])) = RecordGetVarInt<uint32>(rawRecord, x, z);
-                            offset += 4;
-                            break;
-                        case FT_BYTE:
-                            *((uint8*)(&dataTable[offset])) = RecordGetUInt8(rawRecord, x, z);
-                            offset += 1;
-                            break;
-                        case FT_SHORT:
-                            *((uint16*)(&dataTable[offset])) = RecordGetUInt16(rawRecord, x, z);
-                            offset += 2;
-                            break;
-                        case FT_LONG:
-                            *((uint64*)(&dataTable[offset])) = RecordGetUInt64(rawRecord, x, z);
-                            offset += 8;
-                            break;
-                        case FT_STRING:
-                            for (char const*& localeStr : ((LocalizedString*)(&dataTable[offset]))->Str)
-                                localeStr = nullStr;
+                    case FT_FLOAT:
+                        *((float*)(&dataTable[offset])) = RecordGetFloat(rawRecord, x, z);
+                        offset += 4;
+                        break;
+                    case FT_INT:
+                        *((uint32*)(&dataTable[offset])) = RecordGetVarInt<uint32>(rawRecord, x, z);
+                        offset += 4;
+                        break;
+                    case FT_BYTE:
+                        *((uint8*)(&dataTable[offset])) = RecordGetUInt8(rawRecord, x, z);
+                        offset += 1;
+                        break;
+                    case FT_SHORT:
+                        *((uint16*)(&dataTable[offset])) = RecordGetUInt16(rawRecord, x, z);
+                        offset += 2;
+                        break;
+                    case FT_LONG:
+                        *((uint64*)(&dataTable[offset])) = RecordGetUInt64(rawRecord, x, z);
+                        offset += 8;
+                        break;
+                    case FT_STRING:
+                        for (char const*& localeStr : ((LocalizedString*)(&dataTable[offset]))->Str)
+                            localeStr = nullStr;
 
-                            offset += sizeof(LocalizedString);
-                            break;
-                        case FT_STRING_NOT_LOCALIZED:
-                            *(char const**)(&dataTable[offset]) = nullStr;
-                            offset += sizeof(char*);
-                            break;
-                        default:
-                            ASSERT(false, "Unknown format character '%c' found in %s meta for field %s",
-                                _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
-                            break;
+                        offset += sizeof(LocalizedString);
+                        break;
+                    case FT_STRING_NOT_LOCALIZED:
+                        *(char const**)(&dataTable[offset]) = nullStr;
+                        offset += sizeof(char*);
+                        break;
+                    default:
+                        ASSERT(false, "Unknown format character '%c' found in %s meta for field %s",
+                            _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
+                        break;
                     }
                     ++fieldIndex;
                 }
@@ -475,22 +475,22 @@ char* DB2FileLoaderRegularImpl::AutoProduceData(uint32& indexTableSize, char**& 
                 {
                     switch (_loadInfo->TypesString[fieldIndex])
                     {
-                        case FT_INT:
-                            *((uint32*)(&dataTable[offset])) = 0;
-                            offset += 4;
-                            break;
-                        case FT_BYTE:
-                            *((uint8*)(&dataTable[offset])) = 0;
-                            offset += 1;
-                            break;
-                        case FT_SHORT:
-                            *((uint16*)(&dataTable[offset])) = 0;
-                            offset += 2;
-                            break;
-                        default:
-                            ASSERT(false, "Unknown format character '%c' found in %s meta for parent field %s",
-                                _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
-                            break;
+                    case FT_INT:
+                        *((uint32*)(&dataTable[offset])) = 0;
+                        offset += 4;
+                        break;
+                    case FT_BYTE:
+                        *((uint8*)(&dataTable[offset])) = 0;
+                        offset += 1;
+                        break;
+                    case FT_SHORT:
+                        *((uint16*)(&dataTable[offset])) = 0;
+                        offset += 2;
+                        break;
+                    default:
+                        ASSERT(false, "Unknown format character '%c' found in %s meta for parent field %s",
+                            _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
+                        break;
                     }
                     ++fieldIndex;
                 }
@@ -566,35 +566,35 @@ char* DB2FileLoaderRegularImpl::AutoProduceStrings(char** indexTable, uint32 ind
                 {
                     switch (_loadInfo->TypesString[fieldIndex])
                     {
-                        case FT_FLOAT:
-                        case FT_INT:
-                            offset += 4;
-                            break;
-                        case FT_BYTE:
-                            offset += 1;
-                            break;
-                        case FT_SHORT:
-                            offset += 2;
-                            break;
-                        case FT_LONG:
-                            offset += 8;
-                            break;
-                        case FT_STRING:
-                        {
-                            ((LocalizedString*)(&recordData[offset]))->Str[locale] = stringPool + (RecordGetString(rawRecord, x, z) - (char const*)_stringTable);
-                            offset += sizeof(LocalizedString);
-                            break;
-                        }
-                        case FT_STRING_NOT_LOCALIZED:
-                        {
-                            *((char**)(&recordData[offset])) = stringPool + (RecordGetString(rawRecord, x, z) - (char const*)_stringTable);
-                            offset += sizeof(char*);
-                            break;
-                        }
-                        default:
-                            ASSERT(false, "Unknown format character '%c' found in %s meta for field %s",
-                                _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
-                            break;
+                    case FT_FLOAT:
+                    case FT_INT:
+                        offset += 4;
+                        break;
+                    case FT_BYTE:
+                        offset += 1;
+                        break;
+                    case FT_SHORT:
+                        offset += 2;
+                        break;
+                    case FT_LONG:
+                        offset += 8;
+                        break;
+                    case FT_STRING:
+                    {
+                        ((LocalizedString*)(&recordData[offset]))->Str[locale] = stringPool + (RecordGetString(rawRecord, x, z) - (char const*)_stringTable);
+                        offset += sizeof(LocalizedString);
+                        break;
+                    }
+                    case FT_STRING_NOT_LOCALIZED:
+                    {
+                        *((char**)(&recordData[offset])) = stringPool + (RecordGetString(rawRecord, x, z) - (char const*)_stringTable);
+                        offset += sizeof(char*);
+                        break;
+                    }
+                    default:
+                        ASSERT(false, "Unknown format character '%c' found in %s meta for field %s",
+                            _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
+                        break;
                     }
                     ++fieldIndex;
                 }
@@ -640,44 +640,44 @@ void DB2FileLoaderRegularImpl::FillParentLookup(char* dataTable)
 
                 switch (_loadInfo->Meta->Fields[_loadInfo->Meta->ParentIndexField].Type)
                 {
-                    case FT_SHORT:
+                case FT_SHORT:
+                {
+                    if (_loadInfo->Meta->ParentIndexField >= int32(_loadInfo->Meta->FileFieldCount))
                     {
-                        if (_loadInfo->Meta->ParentIndexField >= int32(_loadInfo->Meta->FileFieldCount))
-                        {
-                            // extra field at the end
-                            *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
-                        }
-                        else
-                        {
-                            // in data block, must fit
-                            ASSERT(parentId <= std::numeric_limits<uint16>::max(), "ParentId value %u does not fit into uint16 field (%s in %s)",
-                                parentId, _loadInfo->Fields[_loadInfo->GetFieldIndexByMetaIndex(_loadInfo->Meta->ParentIndexField)].Name, _fileName);
-                            *reinterpret_cast<uint16*>(&recordData[parentIdOffset]) = parentId;
-                        }
-                        break;
-                    }
-                    case FT_BYTE:
-                    {
-                        if (_loadInfo->Meta->ParentIndexField >= int32(_loadInfo->Meta->FileFieldCount))
-                        {
-                            // extra field at the end
-                            *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
-                        }
-                        else
-                        {
-                            // in data block, must fit
-                            ASSERT(parentId <= std::numeric_limits<uint8>::max(), "ParentId value %u does not fit into uint8 field (%s in %s)",
-                                parentId, _loadInfo->Fields[_loadInfo->GetFieldIndexByMetaIndex(_loadInfo->Meta->ParentIndexField)].Name, _fileName);
-                            *reinterpret_cast<uint8*>(&recordData[parentIdOffset]) = parentId;
-                        }
-                        break;
-                    }
-                    case FT_INT:
+                        // extra field at the end
                         *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
-                        break;
-                    default:
-                        ASSERT(false, "Unhandled parent id type '%c' found in %s", _loadInfo->Meta->Fields[_loadInfo->Meta->ParentIndexField].Type, _fileName);
-                        break;
+                    }
+                    else
+                    {
+                        // in data block, must fit
+                        ASSERT(parentId <= std::numeric_limits<uint16>::max(), "ParentId value %u does not fit into uint16 field (%s in %s)",
+                            parentId, _loadInfo->Fields[_loadInfo->GetFieldIndexByMetaIndex(_loadInfo->Meta->ParentIndexField)].Name, _fileName);
+                        *reinterpret_cast<uint16*>(&recordData[parentIdOffset]) = parentId;
+                    }
+                    break;
+                }
+                case FT_BYTE:
+                {
+                    if (_loadInfo->Meta->ParentIndexField >= int32(_loadInfo->Meta->FileFieldCount))
+                    {
+                        // extra field at the end
+                        *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
+                    }
+                    else
+                    {
+                        // in data block, must fit
+                        ASSERT(parentId <= std::numeric_limits<uint8>::max(), "ParentId value %u does not fit into uint8 field (%s in %s)",
+                            parentId, _loadInfo->Fields[_loadInfo->GetFieldIndexByMetaIndex(_loadInfo->Meta->ParentIndexField)].Name, _fileName);
+                        *reinterpret_cast<uint8*>(&recordData[parentIdOffset]) = parentId;
+                    }
+                    break;
+                }
+                case FT_INT:
+                    *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
+                    break;
+                default:
+                    ASSERT(false, "Unhandled parent id type '%c' found in %s", _loadInfo->Meta->Fields[_loadInfo->Meta->ParentIndexField].Type, _fileName);
+                    break;
                 }
             }
         }
@@ -787,71 +787,71 @@ T DB2FileLoaderRegularImpl::RecordGetVarInt(uint8 const* record, uint32 field, u
     DB2ColumnCompression compressionType = _columnMeta ? _columnMeta[field].CompressionType : DB2ColumnCompression::None;
     switch (compressionType)
     {
-        case DB2ColumnCompression::None:
-        {
-            T val = *reinterpret_cast<T const*>(record + GetFieldOffset(field) + sizeof(T) * arrayIndex);
-            EndianConvert(val);
-            return val;
-        }
-        case DB2ColumnCompression::Immediate:
-        {
-            ASSERT(arrayIndex == 0);
-            uint64 immediateValue = RecordGetPackedValue(record + GetFieldOffset(field),
-                _columnMeta[field].CompressionData.immediate.BitWidth, _columnMeta[field].CompressionData.immediate.BitOffset);
-            EndianConvert(immediateValue);
-            T value;
-            memcpy(&value, &immediateValue, std::min(sizeof(T), sizeof(immediateValue)));
-            return value;
-        }
-        case DB2ColumnCompression::CommonData:
-        {
-            uint32 id = RecordGetId(record, (_data.get() - record) / _header->RecordSize);
-            T value;
-            auto valueItr = _commonValues[field].find(id);
-            if (valueItr != _commonValues[field].end())
-                memcpy(&value, &valueItr->second, std::min(sizeof(T), sizeof(uint32)));
-            else
-                memcpy(&value, &_columnMeta[field].CompressionData.commonData.Value, std::min(sizeof(T), sizeof(uint32)));
-            return value;
-        }
-        case DB2ColumnCompression::Pallet:
-        {
-            ASSERT(arrayIndex == 0);
-            uint64 palletIndex = RecordGetPackedValue(record + GetFieldOffset(field),
-                _columnMeta[field].CompressionData.pallet.BitWidth, _columnMeta[field].CompressionData.pallet.BitOffset);
-            EndianConvert(palletIndex);
-            uint32 palletValue = _palletValues[field][palletIndex].Value;
-            EndianConvert(palletValue);
-            T value;
-            memcpy(&value, &palletValue, std::min(sizeof(T), sizeof(palletValue)));
-            return value;
-        }
-        case DB2ColumnCompression::PalletArray:
-        {
-            uint64 palletIndex = RecordGetPackedValue(record + GetFieldOffset(field),
-                _columnMeta[field].CompressionData.pallet.BitWidth, _columnMeta[field].CompressionData.pallet.BitOffset);
-            EndianConvert(palletIndex);
-            uint32 palletValue = _palletArrayValues[field][palletIndex * _columnMeta[field].CompressionData.pallet.ArraySize + arrayIndex].Value;
-            EndianConvert(palletValue);
-            T value;
-            memcpy(&value, &palletValue, std::min(sizeof(T), sizeof(palletValue)));
-            return value;
-        }
-        case DB2ColumnCompression::SignedImmediate:
-        {
-            ASSERT(arrayIndex == 0);
-            uint64 immediateValue = RecordGetPackedValue(record + GetFieldOffset(field),
-                _columnMeta[field].CompressionData.immediate.BitWidth, _columnMeta[field].CompressionData.immediate.BitOffset);
-            EndianConvert(immediateValue);
-            uint64 mask = UI64LIT(1) << (_columnMeta[field].CompressionData.immediate.BitWidth - 1);
-            immediateValue = (immediateValue ^ mask) - mask;
-            T value;
-            memcpy(&value, &immediateValue, std::min(sizeof(T), sizeof(immediateValue)));
-            return value;
-        }
-        default:
-            ASSERT(false, "Unhandled compression type %u in %s", uint32(_columnMeta[field].CompressionType), _fileName);
-            break;
+    case DB2ColumnCompression::None:
+    {
+        T val = *reinterpret_cast<T const*>(record + GetFieldOffset(field) + sizeof(T) * arrayIndex);
+        EndianConvert(val);
+        return val;
+    }
+    case DB2ColumnCompression::Immediate:
+    {
+        ASSERT(arrayIndex == 0);
+        uint64 immediateValue = RecordGetPackedValue(record + GetFieldOffset(field),
+            _columnMeta[field].CompressionData.immediate.BitWidth, _columnMeta[field].CompressionData.immediate.BitOffset);
+        EndianConvert(immediateValue);
+        T value;
+        memcpy(&value, &immediateValue, std::min(sizeof(T), sizeof(immediateValue)));
+        return value;
+    }
+    case DB2ColumnCompression::CommonData:
+    {
+        uint32 id = RecordGetId(record, (_data.get() - record) / _header->RecordSize);
+        T value;
+        auto valueItr = _commonValues[field].find(id);
+        if (valueItr != _commonValues[field].end())
+            memcpy(&value, &valueItr->second, std::min(sizeof(T), sizeof(uint32)));
+        else
+            memcpy(&value, &_columnMeta[field].CompressionData.commonData.Value, std::min(sizeof(T), sizeof(uint32)));
+        return value;
+    }
+    case DB2ColumnCompression::Pallet:
+    {
+        ASSERT(arrayIndex == 0);
+        uint64 palletIndex = RecordGetPackedValue(record + GetFieldOffset(field),
+            _columnMeta[field].CompressionData.pallet.BitWidth, _columnMeta[field].CompressionData.pallet.BitOffset);
+        EndianConvert(palletIndex);
+        uint32 palletValue = _palletValues[field][palletIndex].Value;
+        EndianConvert(palletValue);
+        T value;
+        memcpy(&value, &palletValue, std::min(sizeof(T), sizeof(palletValue)));
+        return value;
+    }
+    case DB2ColumnCompression::PalletArray:
+    {
+        uint64 palletIndex = RecordGetPackedValue(record + GetFieldOffset(field),
+            _columnMeta[field].CompressionData.pallet.BitWidth, _columnMeta[field].CompressionData.pallet.BitOffset);
+        EndianConvert(palletIndex);
+        uint32 palletValue = _palletArrayValues[field][palletIndex * _columnMeta[field].CompressionData.pallet.ArraySize + arrayIndex].Value;
+        EndianConvert(palletValue);
+        T value;
+        memcpy(&value, &palletValue, std::min(sizeof(T), sizeof(palletValue)));
+        return value;
+    }
+    case DB2ColumnCompression::SignedImmediate:
+    {
+        ASSERT(arrayIndex == 0);
+        uint64 immediateValue = RecordGetPackedValue(record + GetFieldOffset(field),
+            _columnMeta[field].CompressionData.immediate.BitWidth, _columnMeta[field].CompressionData.immediate.BitOffset);
+        EndianConvert(immediateValue);
+        uint64 mask = UI64LIT(1) << (_columnMeta[field].CompressionData.immediate.BitWidth - 1);
+        immediateValue = (immediateValue ^ mask) - mask;
+        T value;
+        memcpy(&value, &immediateValue, std::min(sizeof(T), sizeof(immediateValue)));
+        return value;
+    }
+    default:
+        ASSERT(false, "Unhandled compression type %u in %s", uint32(_columnMeta[field].CompressionType), _fileName);
+        break;
     }
 
     return 0;
@@ -869,19 +869,19 @@ uint16 DB2FileLoaderRegularImpl::GetFieldOffset(uint32 field) const
     DB2ColumnCompression compressionType = _columnMeta ? _columnMeta[field].CompressionType : DB2ColumnCompression::None;
     switch (compressionType)
     {
-        case DB2ColumnCompression::None:
-            return _columnMeta[field].BitOffset / 8;
-        case DB2ColumnCompression::Immediate:
-        case DB2ColumnCompression::SignedImmediate:
-            return _columnMeta[field].CompressionData.immediate.BitOffset / 8 + _header->PackedDataOffset;
-        case DB2ColumnCompression::CommonData:
-            return 0xFFFF;
-        case DB2ColumnCompression::Pallet:
-        case DB2ColumnCompression::PalletArray:
-            return _columnMeta[field].CompressionData.pallet.BitOffset / 8 + _header->PackedDataOffset;
-        default:
-            ASSERT(false, "Unhandled compression type %u in %s", uint32(_columnMeta[field].CompressionType), _fileName);
-            break;
+    case DB2ColumnCompression::None:
+        return _columnMeta[field].BitOffset / 8;
+    case DB2ColumnCompression::Immediate:
+    case DB2ColumnCompression::SignedImmediate:
+        return _columnMeta[field].CompressionData.immediate.BitOffset / 8 + _header->PackedDataOffset;
+    case DB2ColumnCompression::CommonData:
+        return 0xFFFF;
+    case DB2ColumnCompression::Pallet:
+    case DB2ColumnCompression::PalletArray:
+        return _columnMeta[field].CompressionData.pallet.BitOffset / 8 + _header->PackedDataOffset;
+    default:
+        ASSERT(false, "Unhandled compression type %u in %s", uint32(_columnMeta[field].CompressionType), _fileName);
+        break;
     }
 
     return 0;
@@ -943,18 +943,18 @@ bool DB2FileLoaderRegularImpl::IsSignedField(uint32 field) const
     DB2ColumnCompression compressionType = _columnMeta ? _columnMeta[field].CompressionType : DB2ColumnCompression::None;
     switch (compressionType)
     {
-        case DB2ColumnCompression::None:
-        case DB2ColumnCompression::CommonData:
-        case DB2ColumnCompression::Pallet:
-        case DB2ColumnCompression::PalletArray:
-            return _loadInfo->Meta->IsSignedField(field);
-        case DB2ColumnCompression::SignedImmediate:
-            return field != uint32(_loadInfo->Meta->IndexField);
-        case DB2ColumnCompression::Immediate:
-            return false;
-        default:
-            ASSERT(false, "Unhandled compression type %u in %s", uint32(_columnMeta[field].CompressionType), _fileName);
-            break;
+    case DB2ColumnCompression::None:
+    case DB2ColumnCompression::CommonData:
+    case DB2ColumnCompression::Pallet:
+    case DB2ColumnCompression::PalletArray:
+        return _loadInfo->Meta->IsSignedField(field);
+    case DB2ColumnCompression::SignedImmediate:
+        return field != uint32(_loadInfo->Meta->IndexField);
+    case DB2ColumnCompression::Immediate:
+        return false;
+    default:
+        ASSERT(false, "Unhandled compression type %u in %s", uint32(_columnMeta[field].CompressionType), _fileName);
+        break;
     }
 
     return false;
@@ -1080,40 +1080,40 @@ char* DB2FileLoaderSparseImpl::AutoProduceData(uint32& indexTableSize, char**& i
                 {
                     switch (_loadInfo->TypesString[fieldIndex])
                     {
-                        case FT_FLOAT:
-                            *((float*)(&dataTable[offset])) = RecordGetFloat(rawRecord, x, z);
-                            offset += 4;
-                            break;
-                        case FT_INT:
-                            *((uint32*)(&dataTable[offset])) = RecordGetVarInt(rawRecord, x, z, _loadInfo->Fields[fieldIndex].IsSigned);
-                            offset += 4;
-                            break;
-                        case FT_BYTE:
-                            *((uint8*)(&dataTable[offset])) = RecordGetUInt8(rawRecord, x, z);
-                            offset += 1;
-                            break;
-                        case FT_SHORT:
-                            *((uint16*)(&dataTable[offset])) = RecordGetUInt16(rawRecord, x, z);
-                            offset += 2;
-                            break;
-                        case FT_LONG:
-                            *((uint64*)(&dataTable[offset])) = RecordGetUInt64(rawRecord, x, z);
-                            offset += 8;
-                            break;
-                        case FT_STRING:
-                            for (char const*& localeStr : ((LocalizedString*)(&dataTable[offset]))->Str)
-                                localeStr = nullStr;
+                    case FT_FLOAT:
+                        *((float*)(&dataTable[offset])) = RecordGetFloat(rawRecord, x, z);
+                        offset += 4;
+                        break;
+                    case FT_INT:
+                        *((uint32*)(&dataTable[offset])) = RecordGetVarInt(rawRecord, x, z, _loadInfo->Fields[fieldIndex].IsSigned);
+                        offset += 4;
+                        break;
+                    case FT_BYTE:
+                        *((uint8*)(&dataTable[offset])) = RecordGetUInt8(rawRecord, x, z);
+                        offset += 1;
+                        break;
+                    case FT_SHORT:
+                        *((uint16*)(&dataTable[offset])) = RecordGetUInt16(rawRecord, x, z);
+                        offset += 2;
+                        break;
+                    case FT_LONG:
+                        *((uint64*)(&dataTable[offset])) = RecordGetUInt64(rawRecord, x, z);
+                        offset += 8;
+                        break;
+                    case FT_STRING:
+                        for (char const*& localeStr : ((LocalizedString*)(&dataTable[offset]))->Str)
+                            localeStr = nullStr;
 
-                            offset += sizeof(LocalizedString);
-                            break;
-                        case FT_STRING_NOT_LOCALIZED:
-                            *(char const**)(&dataTable[offset]) = nullStr;
-                            offset += sizeof(char*);
-                            break;
-                        default:
-                            ASSERT(false, "Unknown format character '%c' found in %s meta for field %s",
-                                _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
-                            break;
+                        offset += sizeof(LocalizedString);
+                        break;
+                    case FT_STRING_NOT_LOCALIZED:
+                        *(char const**)(&dataTable[offset]) = nullStr;
+                        offset += sizeof(char*);
+                        break;
+                    default:
+                        ASSERT(false, "Unknown format character '%c' found in %s meta for field %s",
+                            _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
+                        break;
                     }
                     ++fieldIndex;
                 }
@@ -1125,22 +1125,22 @@ char* DB2FileLoaderSparseImpl::AutoProduceData(uint32& indexTableSize, char**& i
                 {
                     switch (_loadInfo->TypesString[fieldIndex])
                     {
-                        case FT_INT:
-                            *((uint32*)(&dataTable[offset])) = 0;
-                            offset += 4;
-                            break;
-                        case FT_BYTE:
-                            *((uint8*)(&dataTable[offset])) = 0;
-                            offset += 1;
-                            break;
-                        case FT_SHORT:
-                            *((uint16*)(&dataTable[offset])) = 0;
-                            offset += 2;
-                            break;
-                        default:
-                            ASSERT(false, "Unknown format character '%c' found in %s meta for parent field %s",
-                                _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
-                            break;
+                    case FT_INT:
+                        *((uint32*)(&dataTable[offset])) = 0;
+                        offset += 4;
+                        break;
+                    case FT_BYTE:
+                        *((uint8*)(&dataTable[offset])) = 0;
+                        offset += 1;
+                        break;
+                    case FT_SHORT:
+                        *((uint16*)(&dataTable[offset])) = 0;
+                        offset += 2;
+                        break;
+                    default:
+                        ASSERT(false, "Unknown format character '%c' found in %s meta for parent field %s",
+                            _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
+                        break;
                     }
                     ++fieldIndex;
                 }
@@ -1230,43 +1230,43 @@ char* DB2FileLoaderSparseImpl::AutoProduceStrings(char** indexTable, uint32 inde
                 {
                     switch (_loadInfo->TypesString[fieldIndex])
                     {
-                        case FT_FLOAT:
-                            offset += 4;
-                            break;
-                        case FT_INT:
-                            offset += 4;
-                            break;
-                        case FT_BYTE:
-                            offset += 1;
-                            break;
-                        case FT_SHORT:
-                            offset += 2;
-                            break;
-                        case FT_LONG:
-                            offset += 8;
-                            break;
-                        case FT_STRING:
-                        {
-                            LocalizedString* db2str = (LocalizedString*)(&recordData[offset]);
-                            db2str->Str[locale] = stringPtr;
-                            strcpy(stringPtr, RecordGetString(rawRecord, x, z));
-                            stringPtr += strlen(stringPtr) + 1;
-                            offset += sizeof(LocalizedString);
-                            break;
-                        }
-                        case FT_STRING_NOT_LOCALIZED:
-                        {
-                            char const** db2str = (char const**)(&recordData[offset]);
-                            *db2str = stringPtr;
-                            strcpy(stringPtr, RecordGetString(rawRecord, x, z));
-                            stringPtr += strlen(stringPtr) + 1;
-                            offset += sizeof(char*);
-                            break;
-                        }
-                        default:
-                            ASSERT(false, "Unknown format character '%c' found in %s meta for field %s",
-                                _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
-                            break;
+                    case FT_FLOAT:
+                        offset += 4;
+                        break;
+                    case FT_INT:
+                        offset += 4;
+                        break;
+                    case FT_BYTE:
+                        offset += 1;
+                        break;
+                    case FT_SHORT:
+                        offset += 2;
+                        break;
+                    case FT_LONG:
+                        offset += 8;
+                        break;
+                    case FT_STRING:
+                    {
+                        LocalizedString* db2str = (LocalizedString*)(&recordData[offset]);
+                        db2str->Str[locale] = stringPtr;
+                        strcpy(stringPtr, RecordGetString(rawRecord, x, z));
+                        stringPtr += strlen(stringPtr) + 1;
+                        offset += sizeof(LocalizedString);
+                        break;
+                    }
+                    case FT_STRING_NOT_LOCALIZED:
+                    {
+                        char const** db2str = (char const**)(&recordData[offset]);
+                        *db2str = stringPtr;
+                        strcpy(stringPtr, RecordGetString(rawRecord, x, z));
+                        stringPtr += strlen(stringPtr) + 1;
+                        offset += sizeof(char*);
+                        break;
+                    }
+                    default:
+                        ASSERT(false, "Unknown format character '%c' found in %s meta for field %s",
+                            _loadInfo->TypesString[fieldIndex], _fileName, _loadInfo->Fields[fieldIndex].Name);
+                        break;
                     }
                     ++fieldIndex;
                 }
@@ -1335,44 +1335,44 @@ void DB2FileLoaderSparseImpl::FillParentLookup(char* dataTable)
 
                 switch (_loadInfo->Meta->Fields[_loadInfo->Meta->ParentIndexField].Type)
                 {
-                    case FT_SHORT:
+                case FT_SHORT:
+                {
+                    if (_loadInfo->Meta->ParentIndexField >= int32(_loadInfo->Meta->FileFieldCount))
                     {
-                        if (_loadInfo->Meta->ParentIndexField >= int32(_loadInfo->Meta->FileFieldCount))
-                        {
-                            // extra field at the end
-                            *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
-                        }
-                        else
-                        {
-                            // in data block, must fit
-                            ASSERT(parentId <= 0xFFFF, "ParentId value %u does not fit into uint16 field (%s in %s)",
-                                parentId, _loadInfo->Fields[_loadInfo->GetFieldIndexByMetaIndex(_loadInfo->Meta->ParentIndexField)].Name, _fileName);
-                            *reinterpret_cast<uint16*>(&recordData[parentIdOffset]) = parentId;
-                        }
-                        break;
-                    }
-                    case FT_BYTE:
-                    {
-                        if (_loadInfo->Meta->ParentIndexField >= int32(_loadInfo->Meta->FileFieldCount))
-                        {
-                            // extra field at the end
-                            *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
-                        }
-                        else
-                        {
-                            // in data block, must fit
-                            ASSERT(parentId <= 0xFF, "ParentId value %u does not fit into uint8 field (%s in %s)",
-                                parentId, _loadInfo->Fields[_loadInfo->GetFieldIndexByMetaIndex(_loadInfo->Meta->ParentIndexField)].Name, _fileName);
-                            *reinterpret_cast<uint8*>(&recordData[parentIdOffset]) = parentId;
-                        }
-                        break;
-                    }
-                    case FT_INT:
+                        // extra field at the end
                         *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
-                        break;
-                    default:
-                        ASSERT(false, "Unhandled parent id type '%c' found in %s", _loadInfo->Meta->Fields[_loadInfo->Meta->ParentIndexField].Type, _fileName);
-                        break;
+                    }
+                    else
+                    {
+                        // in data block, must fit
+                        ASSERT(parentId <= 0xFFFF, "ParentId value %u does not fit into uint16 field (%s in %s)",
+                            parentId, _loadInfo->Fields[_loadInfo->GetFieldIndexByMetaIndex(_loadInfo->Meta->ParentIndexField)].Name, _fileName);
+                        *reinterpret_cast<uint16*>(&recordData[parentIdOffset]) = parentId;
+                    }
+                    break;
+                }
+                case FT_BYTE:
+                {
+                    if (_loadInfo->Meta->ParentIndexField >= int32(_loadInfo->Meta->FileFieldCount))
+                    {
+                        // extra field at the end
+                        *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
+                    }
+                    else
+                    {
+                        // in data block, must fit
+                        ASSERT(parentId <= 0xFF, "ParentId value %u does not fit into uint8 field (%s in %s)",
+                            parentId, _loadInfo->Fields[_loadInfo->GetFieldIndexByMetaIndex(_loadInfo->Meta->ParentIndexField)].Name, _fileName);
+                        *reinterpret_cast<uint8*>(&recordData[parentIdOffset]) = parentId;
+                    }
+                    break;
+                }
+                case FT_INT:
+                    *reinterpret_cast<uint32*>(&recordData[parentIdOffset]) = parentId;
+                    break;
+                default:
+                    ASSERT(false, "Unhandled parent id type '%c' found in %s", _loadInfo->Meta->Fields[_loadInfo->Meta->ParentIndexField].Type, _fileName);
+                    break;
                 }
             }
         }
@@ -1521,22 +1521,22 @@ void DB2FileLoaderSparseImpl::CalculateAndStoreFieldOffsets(uint8 const* rawReco
             _fieldAndArrayOffsets[combinedField] = offset;
             switch (_loadInfo->Meta->Fields[field].Type)
             {
-                case FT_BYTE:
-                case FT_SHORT:
-                case FT_INT:
-                case FT_LONG:
-                    offset += GetFieldSize(field);
-                    break;
-                case FT_FLOAT:
-                    offset += sizeof(float);
-                    break;
-                case FT_STRING:
-                case FT_STRING_NOT_LOCALIZED:
-                    offset += strlen(reinterpret_cast<char const*>(rawRecord) + offset) + 1;
-                    break;
-                default:
-                    ASSERT(false, "Unknown format character '%c' found in %s meta", _loadInfo->Meta->Fields[field].Type, _fileName);
-                    break;
+            case FT_BYTE:
+            case FT_SHORT:
+            case FT_INT:
+            case FT_LONG:
+                offset += GetFieldSize(field);
+                break;
+            case FT_FLOAT:
+                offset += sizeof(float);
+                break;
+            case FT_STRING:
+            case FT_STRING_NOT_LOCALIZED:
+                offset += strlen(reinterpret_cast<char const*>(rawRecord) + offset) + 1;
+                break;
+            default:
+                ASSERT(false, "Unknown format character '%c' found in %s meta", _loadInfo->Meta->Fields[field].Type, _fileName);
+                break;
             }
             ++combinedField;
         }
@@ -1747,7 +1747,7 @@ void DB2FileLoader::LoadHeaders(DB2FileSource* source, DB2FileLoadInfo const* lo
             sizeof(DB2Header) +
             sizeof(DB2SectionHeader) * _header.SectionCount +
             sizeof(DB2FieldEntry) * _header.FieldCount +
-            int64(_header.RecordSize) * _header.RecordCount  +
+            int64(_header.RecordSize) * _header.RecordCount +
             _header.StringTableSize +
             (loadInfo->Meta->IndexField == -1 ? sizeof(uint32) * _header.RecordCount : 0) +
             totalCopyTableSize +
@@ -1863,15 +1863,15 @@ void DB2FileLoader::Load(DB2FileSource* source, DB2FileLoadInfo const* loadInfo)
         {
             switch (source->HandleEncryptedSection(section))
             {
-                case DB2EncryptedSectionHandling::Skip:
-                    _impl->SkipEncryptedSection(i);
-                    idTable.resize(idTable.size() + section.IdTableSize / sizeof(uint32));
-                    continue;
-                case DB2EncryptedSectionHandling::Process:
-                    section.TactId = 0;
-                    break;
-                default:
-                    break;
+            case DB2EncryptedSectionHandling::Skip:
+                _impl->SkipEncryptedSection(i);
+                idTable.resize(idTable.size() + section.IdTableSize / sizeof(uint32));
+                continue;
+            case DB2EncryptedSectionHandling::Process:
+                section.TactId = 0;
+                break;
+            default:
+                break;
             }
         }
 

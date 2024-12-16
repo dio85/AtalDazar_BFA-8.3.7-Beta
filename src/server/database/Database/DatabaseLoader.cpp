@@ -25,7 +25,7 @@
 
 DatabaseLoader::DatabaseLoader(std::string const& logger, uint32 const defaultUpdateMask)
     : _logger(logger), _autoSetup(sConfigMgr->GetBoolDefault("Updates.AutoSetup", true)),
-    _updateFlags(sConfigMgr->GetIntDefault("Updates.EnableDatabases", defaultUpdateMask))
+    _updateFlags(sConfigMgr->GetIntDefault("Updates.EnableDatabases", 0))
 {
 }
 
@@ -35,85 +35,86 @@ DatabaseLoader& DatabaseLoader::AddDatabase(DatabaseWorkerPool<T>& pool, std::st
     bool const updatesEnabledForThis = DBUpdater<T>::IsEnabled(_updateFlags);
 
     _open.push([this, name, updatesEnabledForThis, &pool]() -> bool
-    {
-        std::string const dbString = sConfigMgr->GetStringDefault(name + "DatabaseInfo", "");
-        if (dbString.empty())
         {
-            TC_LOG_ERROR(_logger, "Database %s not specified in configuration file!", name.c_str());
-            return false;
-        }
-
-        uint8 const asyncThreads = uint8(sConfigMgr->GetIntDefault(name + "Database.WorkerThreads", 1));
-        if (asyncThreads < 1 || asyncThreads > 32)
-        {
-            TC_LOG_ERROR(_logger, "%s database: invalid number of worker threads specified. "
-                "Please pick a value between 1 and 32.", name.c_str());
-            return false;
-        }
-
-        uint8 const synchThreads = uint8(sConfigMgr->GetIntDefault(name + "Database.SynchThreads", 1));
-
-        pool.SetConnectionInfo(dbString, asyncThreads, synchThreads);
-        if (uint32 error = pool.Open())
-        {
-            // Database does not exist
-            if ((error == ER_BAD_DB_ERROR) && updatesEnabledForThis && _autoSetup)
+            std::string const dbString = sConfigMgr->GetStringDefault(name + "DatabaseInfo", "");
+            if (dbString.empty())
             {
-                // Try to create the database and connect again if auto setup is enabled
-                if (DBUpdater<T>::Create(pool) && (!pool.Open()))
-                    error = 0;
-            }
-
-            // If the error wasn't handled quit
-            if (error)
-            {
-                TC_LOG_ERROR("sql.driver", "\nDatabasePool %s NOT opened. There were errors opening the MySQL connections. Check your SQLDriverLogFile "
-                    "for specific errors %u. Read wiki at https://www.trinitycore.info/display/tc/TrinityCore+Home", name.c_str(), error);
-
+                TC_LOG_ERROR(_logger, "Database %s not specified in configuration file!", name.c_str());
                 return false;
             }
-        }
-        // Add the close operation
-        _close.push([&pool]
-        {
-            pool.Close();
+
+            uint8 const asyncThreads = uint8(sConfigMgr->GetIntDefault(name + "Database.WorkerThreads", 1));
+            if (asyncThreads < 1 || asyncThreads > 32)
+            {
+                TC_LOG_ERROR(_logger, "%s database: invalid number of worker threads specified. "
+                    "Please pick a value between 1 and 32.", name.c_str());
+                return false;
+            }
+
+            uint8 const synchThreads = uint8(sConfigMgr->GetIntDefault(name + "Database.SynchThreads", 1));
+
+            pool.SetConnectionInfo(dbString, asyncThreads, synchThreads);
+            if (uint32 error = pool.Open())
+            {
+                // Database does not exist
+                if ((error == ER_BAD_DB_ERROR) && updatesEnabledForThis && _autoSetup)
+                {
+                    // Try to create the database and connect again if auto setup is enabled
+                    if (DBUpdater<T>::Create(pool) && (!pool.Open()))
+                        error = 0;
+                }
+
+                // If the error wasn't handled quit
+                if (error)
+                {
+                    TC_LOG_ERROR("sql.driver", "\nDatabasePool %s NOT opened. There were errors opening the MySQL connections. Check your SQLDriverLogFile "
+                        "for specific errors. Read wiki at https://www.trinitycore.info/display/tc/TrinityCore+Home", name.c_str());
+
+                    return false;
+                }
+            }
+            // Add the close operation
+            _close.push([&pool]
+                {
+                    pool.Close();
+                });
+            return true;
         });
-        return true;
-    });
 
     // Populate and update only if updates are enabled for this pool
-    if (updatesEnabledForThis)
+    // we don't want to update legion auth from bfa
+    if (updatesEnabledForThis && name != "LegionLogin")
     {
         _populate.push([this, name, &pool]() -> bool
-        {
-            if (!DBUpdater<T>::Populate(pool))
             {
-                TC_LOG_ERROR(_logger, "Could not populate the %s database, see log for details.", name.c_str());
-                return false;
-            }
-            return true;
-        });
+                if (!DBUpdater<T>::Populate(pool))
+                {
+                    TC_LOG_ERROR(_logger, "Could not populate the %s database, see log for details.", name.c_str());
+                    return false;
+                }
+                return true;
+            });
 
         _update.push([this, name, &pool]() -> bool
-        {
-            if (!DBUpdater<T>::Update(pool))
             {
-                TC_LOG_ERROR(_logger, "Could not update the %s database, see log for details.", name.c_str());
-                return false;
-            }
-            return true;
-        });
+                if (!DBUpdater<T>::Update(pool))
+                {
+                    TC_LOG_ERROR(_logger, "Could not update the %s database, see log for details.", name.c_str());
+                    return false;
+                }
+                return true;
+            });
     }
 
     _prepare.push([this, name, &pool]() -> bool
-    {
-        if (!pool.PrepareStatements())
         {
-            TC_LOG_ERROR(_logger, "Could not prepare statements of the %s database, see log for details.", name.c_str());
-            return false;
-        }
-        return true;
-    });
+            if (!pool.PrepareStatements())
+            {
+                TC_LOG_ERROR(_logger, "Could not prepare statements of the %s database, see log for details.", name.c_str());
+                return false;
+            }
+            return true;
+        });
 
     return *this;
 }

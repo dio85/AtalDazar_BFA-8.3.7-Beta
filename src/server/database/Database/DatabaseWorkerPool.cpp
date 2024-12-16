@@ -51,12 +51,15 @@ class PingOperation : public SQLOperation
 template <class T>
 DatabaseWorkerPool<T>::DatabaseWorkerPool()
     : _queue(new ProducerConsumerQueue<SQLOperation*>()),
-      _async_threads(0), _synch_threads(0)
+    _async_threads(0), _synch_threads(0)
 {
     WPFatal(mysql_thread_safe(), "Used MySQL library isn't thread-safe.");
-    WPFatal(mysql_get_client_version() >= MIN_MYSQL_CLIENT_VERSION, "TrinityCore does not support MySQL versions below 5.1");
-    WPFatal(mysql_get_client_version() == MYSQL_VERSION_ID, "Used MySQL library version (%s) does not match the version used to compile TrinityCore (%s). Search on forum for TCE00011.",
+    // i disabled mysql check for linux since mariadb returns back low version with mysql_get_client_version
+#ifdef _WIN32 
+    WPFatal(mysql_get_client_version() >= MIN_MYSQL_CLIENT_VERSION, "BfaCore does not support MySQL versions below 5.1");
+    WPFatal(mysql_get_client_version() == MYSQL_VERSION_ID, "Used MySQL library version (%s) does not match the version used to compile BfaCore (%s). Search on forum for TCE00011.",
         mysql_get_client_info(), MYSQL_SERVER_VERSION);
+#endif
 }
 
 template <class T>
@@ -94,8 +97,8 @@ uint32 DatabaseWorkerPool<T>::Open()
     if (!error)
     {
         TC_LOG_INFO("sql.driver", "DatabasePool '%s' opened successfully. " SZFMTD
-                    " total connections running.", GetDatabaseName(),
-                    (_connections[IDX_SYNCH].size() + _connections[IDX_ASYNC].size()));
+            " total connections running.", GetDatabaseName(),
+            (_connections[IDX_SYNCH].size() + _connections[IDX_ASYNC].size()));
     }
 
     return error;
@@ -110,7 +113,7 @@ void DatabaseWorkerPool<T>::Close()
     _connections[IDX_ASYNC].clear();
 
     TC_LOG_INFO("sql.driver", "Asynchronous connections on DatabasePool '%s' terminated. "
-                "Proceeding with synchronous connections.",
+        "Proceeding with synchronous connections.",
         GetDatabaseName());
 
     //! Shut down the synchronous connections
@@ -150,7 +153,7 @@ bool DatabaseWorkerPool<T>::PrepareStatements()
                 if (_preparedStatementSize[i] > 0)
                     continue;
 
-                if (MySQLPreparedStatement * stmt = connection->m_stmts[i].get())
+                if (MySQLPreparedStatement* stmt = connection->m_stmts[i].get())
                 {
                     uint32 const paramCount = stmt->GetParameterCount();
 
@@ -270,14 +273,14 @@ TransactionCallback DatabaseWorkerPool<T>::AsyncCommitTransaction(SQLTransaction
     //! so there's no need to waste these CPU cycles in Release mode.
     switch (transaction->GetSize())
     {
-        case 0:
-            TC_LOG_DEBUG("sql.driver", "Transaction contains 0 queries. Not executing.");
-            break;
-        case 1:
-            TC_LOG_DEBUG("sql.driver", "Warning: Transaction only holds 1 query, consider removing Transaction context in code.");
-            break;
-        default:
-            break;
+    case 0:
+        TC_LOG_DEBUG("sql.driver", "Transaction contains 0 queries. Not executing.");
+        break;
+    case 1:
+        TC_LOG_DEBUG("sql.driver", "Warning: Transaction only holds 1 query, consider removing Transaction context in code.");
+        break;
+    default:
+        break;
     }
 #endif // TRINITY_DEBUG
 
@@ -371,7 +374,7 @@ uint32 DatabaseWorkerPool<T>::OpenConnections(InternalIndex type, uint8 numConne
             default:
                 ABORT();
             }
-        }();
+            }();
 
         if (uint32 error = connection->Open())
         {
@@ -381,7 +384,7 @@ uint32 DatabaseWorkerPool<T>::OpenConnections(InternalIndex type, uint8 numConne
         }
         else if (connection->GetServerVersion() < MIN_MYSQL_SERVER_VERSION)
         {
-            TC_LOG_ERROR("sql.driver", "TrinityCore does not support MySQL versions below 5.1");
+            TC_LOG_ERROR("sql.driver", "BfaCore does not support MySQL versions below 5.1");
             return 1;
         }
         else
@@ -395,7 +398,7 @@ uint32 DatabaseWorkerPool<T>::OpenConnections(InternalIndex type, uint8 numConne
 }
 
 template <class T>
-unsigned long DatabaseWorkerPool<T>::EscapeString(char *to, const char *from, unsigned long length)
+unsigned long DatabaseWorkerPool<T>::EscapeString(char* to, const char* from, unsigned long length)
 {
     if (!to || !from || !length)
         return 0;

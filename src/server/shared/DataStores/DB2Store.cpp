@@ -47,38 +47,38 @@ void DB2StorageBase::WriteRecordData(char const* entry, LocaleConstant locale, B
         {
             switch (_loadInfo->Meta->Fields[i].Type)
             {
-                case FT_INT:
-                    buffer << *(uint32*)entry;
-                    entry += 4;
-                    break;
-                case FT_FLOAT:
-                    buffer << *(float*)entry;
-                    entry += 4;
-                    break;
-                case FT_BYTE:
-                    buffer << *(uint8*)entry;
-                    entry += 1;
-                    break;
-                case FT_SHORT:
-                    buffer << *(uint16*)entry;
-                    entry += 2;
-                    break;
-                case FT_LONG:
-                    buffer << *(uint64*)entry;
-                    entry += 8;
-                    break;
-                case FT_STRING:
-                {
-                    buffer << (*(LocalizedString*)entry)[locale];
-                    entry += sizeof(LocalizedString);
-                    break;
-                }
-                case FT_STRING_NOT_LOCALIZED:
-                {
-                    buffer << *(char const**)entry;
-                    entry += sizeof(char const*);
-                    break;
-                }
+            case FT_INT:
+                buffer << *(uint32*)entry;
+                entry += 4;
+                break;
+            case FT_FLOAT:
+                buffer << *(float*)entry;
+                entry += 4;
+                break;
+            case FT_BYTE:
+                buffer << *(uint8*)entry;
+                entry += 1;
+                break;
+            case FT_SHORT:
+                buffer << *(uint16*)entry;
+                entry += 2;
+                break;
+            case FT_LONG:
+                buffer << *(uint64*)entry;
+                entry += 8;
+                break;
+            case FT_STRING:
+            {
+                buffer << (*(LocalizedString*)entry)[locale];
+                entry += sizeof(LocalizedString);
+                break;
+            }
+            case FT_STRING_NOT_LOCALIZED:
+            {
+                buffer << *(char const**)entry;
+                entry += sizeof(char const*);
+                break;
+            }
             }
         }
     }
@@ -128,12 +128,12 @@ void DB2StorageBase::LoadFromDB(char**& indexTable)
     DB2DatabaseLoader loader(_fileName, _loadInfo);
 
     auto loadTable = [&](bool custom)
-    {
-        char* extraStringHolders = nullptr;
-        _dataTableEx[custom ? 1 : 0] = loader.Load(custom, _indexTableSize, indexTable, extraStringHolders, _stringPool);
-        if (extraStringHolders)
-            _stringPool.push_back(extraStringHolders);
-    };
+        {
+            char* extraStringHolders = nullptr;
+            _dataTableEx[custom ? 1 : 0] = loader.Load(custom, _indexTableSize, indexTable, extraStringHolders, _stringPool);
+            if (extraStringHolders)
+                _stringPool.push_back(extraStringHolders);
+        };
 
     loadTable(false);
     loadTable(true);

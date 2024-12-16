@@ -18,7 +18,6 @@
 #include "Log.h"
 #include "AppenderConsole.h"
 #include "AppenderFile.h"
-#include "AppenderGraylog.h"
 #include "Common.h"
 #include "Config.h"
 #include "Errors.h"
@@ -35,7 +34,6 @@ Log::Log() : AppenderId(0), lowestLogLevel(LOG_LEVEL_FATAL), _ioContext(nullptr)
     m_logsTimestamp = "_" + GetTimestampStr();
     RegisterAppender<AppenderConsole>();
     RegisterAppender<AppenderFile>();
-    RegisterAppender<AppenderGraylog>();
 }
 
 Log::~Log()
@@ -236,6 +234,9 @@ void Log::write(std::unique_ptr<LogMessage>&& msg) const
     }
     else
         logger->write(msg.get());
+
+    std::cout << "";
+    std::cerr << "";
 }
 
 Logger const* Log::GetLoggerByType(std::string const& type) const
@@ -345,11 +346,6 @@ void Log::Close()
 
 bool Log::ShouldLog(std::string const& type, LogLevel level) const
 {
-    if (sConfigMgr->GetBoolDefault("OutLog", false))
-    {
-        if (level != LOG_LEVEL_INFO)
-            return false;
-    }
     // TODO: Use cache to store "Type.sub1.sub2": "Type" equivalence, should
     // Speed up in cases where requesting "Type.sub1.sub2" but only configured
     // Logger "Type"
