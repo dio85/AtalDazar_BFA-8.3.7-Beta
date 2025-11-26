@@ -1766,7 +1766,7 @@
 //        }
 //};
 //
-//class BehindTribePredicate : public std::unary_function<Unit*, bool>
+//class BehindTribePredicate
 //{
 //    public:
 //        BehindTribePredicate(Unit* const m_caster) : _caster(m_caster) { }
@@ -3381,7 +3381,7 @@
 //    }
 //};
 //
-//class SummonShadowyMinionsPredicate : public std::unary_function<Creature*, bool>
+//class SummonShadowyMinionsPredicate<Creature*, bool>
 //{
 //    public:
 //        SummonShadowyMinionsPredicate(Creature* const m_caster) : _caster(m_caster) { }
@@ -3470,7 +3470,7 @@
 //    }
 //};
 //
-//class SiphonLifePredicate : public std::unary_function<Unit*, bool>
+//class SiphonLifePredicate
 //{
 //    public:
 //        SiphonLifePredicate(Unit* const m_owner) : _owner(m_owner) { }

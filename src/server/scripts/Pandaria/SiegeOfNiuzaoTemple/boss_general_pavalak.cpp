@@ -285,7 +285,7 @@
 //            int8 phase;
 //            uint64 rushTargetGUID;
 //
-//            struct BladeRushPredicate : public std::unary_function<Unit*, bool>
+//            struct BladeRushPredicate
 //            {
 //                public:
 //                    BladeRushPredicate(Creature const* me) : _me(me) { }

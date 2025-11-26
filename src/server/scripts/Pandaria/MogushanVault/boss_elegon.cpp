@@ -1996,7 +1996,7 @@
 //        }
 //};
 //
-//class TotalAnnihilationPredicate : public std::unary_function<Unit*, bool>
+//class TotalAnnihilationPredicate
 //{
 //    public:
 //        TotalAnnihilationPredicate(Unit* const m_caster) : _caster(m_caster) { }

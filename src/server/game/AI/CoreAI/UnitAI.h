@@ -74,7 +74,7 @@ struct TC_GAME_API DefaultTargetSelector
 
 // Target selector for spell casts checking range, auras and attributes
 /// @todo Add more checks from Spell::CheckCast
-struct TC_GAME_API SpellTargetSelector : public std::unary_function<Unit*, bool>
+struct TC_GAME_API SpellTargetSelector
 {
     public:
         SpellTargetSelector(Unit* caster, uint32 spellId);
@@ -88,7 +88,7 @@ struct TC_GAME_API SpellTargetSelector : public std::unary_function<Unit*, bool>
 // Very simple target selector, will just skip main target
 // NOTE: When passing to UnitAI::SelectTarget remember to use 0 as position for random selection
 //       because tank will not be in the temporary list
-struct TC_GAME_API NonTankTargetSelector : public std::unary_function<Unit*, bool>
+struct TC_GAME_API NonTankTargetSelector
 {
     public:
         NonTankTargetSelector(Unit* source, bool playerOnly = true) : _source(source), _playerOnly(playerOnly) { }
@@ -99,7 +99,7 @@ struct TC_GAME_API NonTankTargetSelector : public std::unary_function<Unit*, boo
         bool _playerOnly;
 };
 
-struct TC_GAME_API CasterSpecTargetSelector :public std::unary_function<uint32, bool>
+struct TC_GAME_API CasterSpecTargetSelector
 {
 public:
     CasterSpecTargetSelector(uint32 spellId = 0) : _spellId(spellId) { }
@@ -110,7 +110,7 @@ private:
     uint32 _spellId;
 };
 
-struct MeeleSpecTargetSelector :public std::unary_function<uint32, bool>
+struct MeeleSpecTargetSelector
 {
     public:
         MeeleSpecTargetSelector(uint32 spellId = 0) : _spellId(spellId) { }
@@ -121,7 +121,7 @@ struct MeeleSpecTargetSelector :public std::unary_function<uint32, bool>
         uint32 _spellId;
 };
 
-struct DpsSpecTargetSelector :public std::unary_function<uint32, bool>
+struct DpsSpecTargetSelector
 {
     public:
         DpsSpecTargetSelector(uint32 spellId = 0) : _spellId(spellId) { }
@@ -132,7 +132,7 @@ struct DpsSpecTargetSelector :public std::unary_function<uint32, bool>
         uint32 _spellId;
 };
 
-struct TankSpecTargetSelector :public std::unary_function<uint32, bool>
+struct TankSpecTargetSelector
 {
     public:
         TankSpecTargetSelector(uint32 spellId = 0) : _spellId(spellId) { }
@@ -143,7 +143,7 @@ struct TankSpecTargetSelector :public std::unary_function<uint32, bool>
         uint32 _spellId;
 };
 
-struct HealerSpecTargetSelector :public std::unary_function<uint32, bool>
+struct HealerSpecTargetSelector
 {
     public:
         HealerSpecTargetSelector(uint32 spellId = 0) : _spellId(spellId) { }
@@ -154,7 +154,7 @@ struct HealerSpecTargetSelector :public std::unary_function<uint32, bool>
         uint32 _spellId;
 };
 
-struct NonTankSpecTargetSelector :public std::unary_function<uint32, bool>
+struct NonTankSpecTargetSelector
 {
     public:
         NonTankSpecTargetSelector(uint32 spellId = 0) : _spellId(spellId) { }

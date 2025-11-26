@@ -285,7 +285,7 @@
 //            }
 //
 //            private:
-//                struct CurseOfVitalityPredicate : public std::unary_function<Unit*, bool>
+//                struct CurseOfVitalityPredicate
 //                {
 //                    public:
 //                        CurseOfVitalityPredicate(Creature const* me) : _me(me) { }

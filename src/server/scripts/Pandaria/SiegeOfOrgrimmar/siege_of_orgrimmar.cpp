@@ -4973,7 +4973,7 @@
 //    }
 //};
 //
-//class VortexPredicate : public std::unary_function<Unit*, bool>
+//class VortexPredicate
 //{
 //    public:
 //        VortexPredicate(Unit* const m_caster) : _caster(m_caster) { }

@@ -1863,7 +1863,7 @@
 //    }
 //};
 //
-//class EnergizingSmashPredicate : public std::unary_function<Unit*, bool>
+//class EnergizingSmashPredicate
 //{
 //    public:
 //        EnergizingSmashPredicate(Unit* const m_owner) : _owner(m_owner) { }

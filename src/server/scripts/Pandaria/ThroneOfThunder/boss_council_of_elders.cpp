@@ -2432,7 +2432,7 @@
 //    }
 //};
 //
-//class FrostbitePredicate : public std::unary_function<Creature*, bool>
+//class FrostbitePredicate<Creature*, bool>
 //{
 //    public:
 //        FrostbitePredicate(Creature* const m_caster) : _caster(m_caster) { }

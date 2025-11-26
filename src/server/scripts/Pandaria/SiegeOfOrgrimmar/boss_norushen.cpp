@@ -2024,7 +2024,7 @@
 //    }
 //};
 //
-//class BlindHatredPredicate : public std::unary_function<Unit*, bool>
+//class BlindHatredPredicate
 //{
 //    public:
 //        BlindHatredPredicate(Unit* const m_caster) : _caster(m_caster) { }
@@ -2133,7 +2133,7 @@
 //};
 //
 //// we should hit only our owner in same phase with another challengers
-//class TrialPhasePredicate : public std::unary_function<Unit*, bool>
+//class TrialPhasePredicate
 //{
 //    public:
 //        TrialPhasePredicate(Creature* const m_caster) : _caster(m_caster) { }

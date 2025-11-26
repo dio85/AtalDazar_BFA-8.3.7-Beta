@@ -165,7 +165,7 @@ const Position relicPos[3] =
 #define FATHUUL_PACT "Master! Grantme strenght!"
 #define ZAX_PACT "He...will yet...claim you..."
 
-struct checkSpec : public std::unary_function<Unit*, bool>
+struct checkSpec
 {
 	checkSpec() {}
 

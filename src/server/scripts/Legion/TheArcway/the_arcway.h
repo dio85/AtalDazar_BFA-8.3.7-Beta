@@ -47,7 +47,7 @@ enum ArcwayCreatureIds
     NPC_QUARANTINE          = 99560        // Corstilax
 };
 
-struct NonMeleeTargetSelector : public std::unary_function<Unit*, bool>
+struct NonMeleeTargetSelector
 {
     public:
         NonMeleeTargetSelector(Unit* source, bool playerOnly = true) : _source(source), _playerOnly(playerOnly) { }

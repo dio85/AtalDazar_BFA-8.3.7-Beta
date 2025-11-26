@@ -227,7 +227,7 @@ enum Actions
 #define KILLED_TARGET "All glory to the master"
 
 // Trident of Deep Ocean
-struct tankSpecs : public std::unary_function<Unit*, bool>
+struct tankSpecs
 {
 	tankSpecs() {}
 
@@ -245,7 +245,7 @@ struct tankSpecs : public std::unary_function<Unit*, bool>
 };
 
 // Void Stone
-struct healSpecs : public std::unary_function<Unit*, bool>
+struct healSpecs
 {
 	healSpecs() {}
 
@@ -263,7 +263,7 @@ struct healSpecs : public std::unary_function<Unit*, bool>
 };
 
 // Tempest Caller
-struct dpsSpecs : public std::unary_function<Unit*, bool>
+struct dpsSpecs
 {
 	dpsSpecs() {}
 

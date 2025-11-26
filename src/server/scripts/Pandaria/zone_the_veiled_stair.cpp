@@ -2221,7 +2221,7 @@ class spell_wrathion_reign_of_fire : public AuraScript
     }
 };
 
-class BlindsidePredicate : public std::unary_function<Unit*, bool>
+class BlindsidePredicate
 {
     public:
         BlindsidePredicate(Unit* const m_caster) : _caster(m_caster) { }

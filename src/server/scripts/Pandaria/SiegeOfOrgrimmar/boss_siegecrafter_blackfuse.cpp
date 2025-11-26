@@ -247,7 +247,7 @@
 //}
 //
 //// Predicate on select player that not has a tank spec and actually not on conveyor
-//struct NonTankSpecConveyorPredicate : public std::unary_function<Unit*, bool>
+//struct NonTankSpecConveyorPredicate
 //{
 //    public:
 //        NonTankSpecConveyorPredicate(Creature const* me) : _me(me) { }

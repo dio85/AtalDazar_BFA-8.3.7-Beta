@@ -3241,7 +3241,7 @@
 //    }
 //};
 //
-//class AimPredicate : public std::unary_function<Creature*, bool>
+//class AimPredicate<Creature*, bool>
 //{
 //    public:
 //        AimPredicate(Creature* const caster) : _caster(caster) { }

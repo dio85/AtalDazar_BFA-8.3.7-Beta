@@ -1887,7 +1887,7 @@
 //    }
 //};
 //
-//class LifeDrainPredicate : public std::unary_function<Creature*, bool>
+//class LifeDrainPredicate<Creature*, bool>
 //{
 //    public:
 //        LifeDrainPredicate(Creature* const m_caster) : _caster(m_caster) { }
