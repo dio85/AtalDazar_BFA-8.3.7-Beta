@@ -65,10 +65,10 @@ public:
     {
         npc_thugAI(Creature* creature) : ScriptedAI(creature) {}
 
-        uint32 SummonTimer;
+        uint32 SummonTimer = 0;
         ObjectGuid PlayerGUID;
         std::array<ObjectGuid, 4> ThugGUIDs;
-        uint8 Phase;
+        uint8 Phase = 0;
 
         std::vector<Position> const ThugPositions =
         {
@@ -78,7 +78,7 @@ public:
             { -9860.42f, 1335.459f, 41.985f, 4.11f },
         };
 
-        bool bSummoned;
+        bool bSummoned = false;
 
         void Reset() override
         {
@@ -287,15 +287,15 @@ public:
     {
         npc_horatioAI(Creature* creature) : ScriptedAI(creature) {}
 
-        uint8 Phase;
-        uint32 TextTimer;
+        uint8 Phase = 0;
+        uint32 TextTimer = 0;
         ObjectGuid PlayerGUID;
         ObjectGuid Investigator01GUID;
         ObjectGuid Investigator02GUID;
 
-        bool bSummoned;
-        bool bSummoned1;
-        bool bSummoned2;
+        bool bSummoned = false;
+        bool bSummoned1 = false;
+        bool bSummoned2 = false;
 
         void Reset() override
         {
@@ -610,13 +610,13 @@ public:
     {
         npc_crate_mineAI(Creature* creature) : ScriptedAI(creature) {}
 
-        uint8 Phase;
-        uint32 EntryTime;
+        uint8 Phase = 0;
+        uint32 EntryTime = 0;
         ObjectGuid PlayerGUID;
         ObjectGuid Shadowy1GUID;
         ObjectGuid GlubtoklGUID;
 
-        bool bSummoned;
+        bool bSummoned = false;
 
         void Reset() override
         {
@@ -796,7 +796,7 @@ public:
     {
         npc_shadowy_triggerAI(Creature* creature) : ScriptedAI(creature) {}
 
-        uint32 SummonTimer;
+        uint32 SummonTimer = 0;
         ObjectGuid PlayerGUID;
         ObjectGuid Shadowy2GUID;
         ObjectGuid Witness1GUID;
@@ -827,11 +827,11 @@ public:
         ObjectGuid Witness26GUID;
         ObjectGuid Witness27GUID;
 
-        uint8 Phase;
+        uint8 Phase = 0;
 
-        bool bSummoned;
-        bool bSummoned1;
-        bool bText;
+        bool bSummoned = false;
+        bool bSummoned1 = false;
+        bool bText = false;
 
         void Reset() override
         {
@@ -1068,16 +1068,16 @@ public:
     {
         npc_shadowy_towerAI(Creature* creature) : ScriptedAI(creature) {}
 
-        uint8 Phase;
-        uint32 SummonTimer;
+        uint8 Phase = 0;
+        uint32 SummonTimer = 0;
         ObjectGuid PlayerGUID;
         ObjectGuid Glubtok3GUID;
         ObjectGuid Shadowy3GUID;
 
-        bool bSumm;
-        bool bSumm1;
-        bool bSumm2;
-        bool bExit;
+        bool bSumm = false;
+        bool bSumm1 = false;
+        bool bSumm2 = false;
+        bool bExit = false;
 
         void Reset() override
         {
@@ -1342,13 +1342,13 @@ class npc_rise_br : public CreatureScript
         ObjectGuid Fire12GUID;
         ObjectGuid Fire13GUID;
 
-        uint32 EventTimer;
+        uint32 EventTimer = 0;
 
-        uint8 Phase;
+        uint8 Phase = 0;
 
-        char playername;
+        char playername[40] = "";
 
-        bool EventStarted;
+        bool EventStarted = false;
 
         void Reset() override
         {
@@ -1712,11 +1712,11 @@ public:
     {
         npc_defias_blackguardAI(Creature* creature) : ScriptedAI(creature) {}
 
-        uint32 timer_DoFire;
-        uint32 timer_DoTheStun;
-        uint32 ThrowTimer;
-        bool Defias_DoFire;
-        bool Defias_DoTheStun;
+        uint32 timer_DoFire = 0;
+        uint32 timer_DoTheStun = 0;
+        uint32 ThrowTimer = 0;
+        bool Defias_DoFire = false;
+        bool Defias_DoTheStun = false;
 
         void Reset() override
         {
@@ -1769,7 +1769,7 @@ public:
     {
         npc_fire_triggerAI(Creature* creature) : ScriptedAI(creature) {}
 
-        uint32 StopFireTimer;
+        uint32 StopFireTimer = 0;
 
         void Reset() override
         {
@@ -1836,14 +1836,14 @@ public:
     {
         npc_horatio_investigateAI(Creature* creature) : ScriptedAI(creature) {}
 
-        uint8 Phase;
-        uint32 TextTimer;
+        uint8 Phase = 0;
+        uint32 TextTimer = 0;
         ObjectGuid PlayerGUID;
         ObjectGuid Investigator04GUID;
         ObjectGuid HomeGUID;
-        bool bSummonn;
-        bool bSummonn1;
-        bool bSummonn2;
+        bool bSummonn = false;
+        bool bSummonn1 = false;
+        bool bSummonn2 = false;
 
         void Reset() override
         {
@@ -1995,8 +1995,8 @@ class npc_hungry_hobo : public CreatureScript
     {
         npc_hungry_hoboAI(Creature* creature) : ScriptedAI(creature) {}
 
-        uint8 count;
-        uint32 Miam;
+        uint8 count = 0;
+        uint32 Miam = 0;
 
         void Reset() override
         {

@@ -979,7 +979,7 @@ namespace WorldPackets
 
             void Read() override;
 
-            uint32 AdventureJournalID;
+            uint32 AdventureJournalID = 0;
         };
 
         class AdventureJournalStartQuest final : public ClientPacket
@@ -989,7 +989,7 @@ namespace WorldPackets
 
             void Read() override;
 
-            uint32 QuestID;
+            uint32 QuestID = 0;
         };
 
         class FactionSelectUI final : public ServerPacket
@@ -1035,8 +1035,8 @@ namespace WorldPackets
 
             WorldPacket const* Write() override;
 
-            uint32 TimerID;
-            uint32 CurrentDuration;
+            uint32 TimerID = 0;
+            uint32 CurrentDuration = 0;
         };
 
         class TC_GAME_API OpenAlliedRaceDetailsGiver final : public ServerPacket
@@ -1047,7 +1047,7 @@ namespace WorldPackets
             WorldPacket const* Write() override;
 
             ObjectGuid Guid;
-            uint32 RaceId;
+            uint32 RaceId = 0;
         };
 
         class SetWarMode final : public ClientPacket
@@ -1057,7 +1057,7 @@ namespace WorldPackets
 
             void Read() override;
 
-            bool Enabled;
+            bool Enabled = false;
         };
 
 		 class ArchaeologySurveryCast final : public ServerPacket

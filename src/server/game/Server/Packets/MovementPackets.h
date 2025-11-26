@@ -525,7 +525,7 @@ namespace WorldPackets
             WorldPacket const* Write() override;
 
             ObjectGuid MoverGuid;
-            uint32 TimeSkipped;
+            uint32 TimeSkipped = 0;
         };
 
         class SummonResponse final : public ClientPacket
